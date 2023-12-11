@@ -16,9 +16,11 @@ export default function Canvas1() {
 let frameX = 0;
 let FrameY = 3;
 let staggerFrames = 5; //60/5=12 12 frames per second
+const spriteAnimation = "";
+const animationState = { name: "idle" };
 const draw = (ctx, frameCount, ratio) => {
-  // frameCountis 60 per second
-  let position = Math.floor(frameCount / staggerFrames) % 9; // only has 9 frames
+  // frameCount is 60times per second
+  let position = Math.floor(frameCount / staggerFrames) % 9; // only has 9 frames   , 60/5=12 12 frames per second
   frameX = position;
   ctx.clearRect(0, 0, ctx.canvas.width * ratio, ctx.canvas.height * ratio);
   const image = new Image();
