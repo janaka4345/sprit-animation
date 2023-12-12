@@ -1,20 +1,6 @@
 import { useEffect, useState } from "react";
 import useCanvas from "./useCanvas";
-
-export default function Canvas1() {
-  const [animation, setAnimation] = useState("idle");
-  const canvasRef = useCanvas(draw);
-  useEffect(() => {
-    // console.log(canvasRef.current.getContext("2d"));
-  }, []);
-  return (
-    <>
-      <canvas id="canvas1" ref={canvasRef} />
-    </>
-  );
-}
-
-const spriteAnimation = "";
+let animationName = "dizzy";
 const animationState = {
   idle: [0, 7],
   jump: [1, 7],
@@ -27,14 +13,43 @@ const animationState = {
   goof2: [8, 12],
   goof3: [9, 4],
 };
+export default function Canvas1() {
+  const [animation, setAnimation] = useState("idle");
+  const canvasRef = useCanvas(draw);
+  useEffect(() => {
+    // console.log(canvasRef.current.getContext("2d"));
+    animationName = animation;
+  }, [animation]);
+  return (
+    <>
+      <canvas id="canvas1" ref={canvasRef} />
+      <form className="form1">
+        <select
+          name="animations"
+          id="animations"
+          onChange={(e) => setAnimation(e.target.value)}
+        >
+          {Object.entries(animationState).map(([key]) => (
+            <option key={key} value={key}>
+              {key}
+            </option>
+          ))}
+        </select>
+      </form>
+    </>
+  );
+}
+
+const spriteAnimation = "";
+
 let frameX = 0;
-let animation = "dizzy";
-let FrameY = animationState[animation][0];
+
 let staggerFrames = 5; //60/5=12 12 frames per second
 const draw = (ctx, frameCount, ratio) => {
+  let FrameY = animationState[animationName][0];
   // frameCount is 60times per second
   let position =
-    Math.floor(frameCount / staggerFrames) % animationState[animation][1]; // only has 9 frames   , 60/5=12 12 frames per second
+    Math.floor(frameCount / staggerFrames) % animationState[animationName][1]; // only has 9 frames   , 60/5=12 12 frames per second
   frameX = position;
   ctx.clearRect(0, 0, ctx.canvas.width * ratio, ctx.canvas.height * ratio);
   const image = new Image();
